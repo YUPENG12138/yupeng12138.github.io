@@ -1,0 +1,151 @@
+
+<!DOCTYPE html>
+<html lang="" class="loading">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Hexo</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate">
+    <meta name="keywords" content="Fechin,"> 
+    
+    <meta name="author" content="John Doe"> 
+    <link rel="alternative" href="atom.xml" title="Hexo" type="application/atom+xml"> 
+    <link rel="icon" href="/img/yu-favicon.png"> 
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <link rel="stylesheet" href="/css/diaspora.css">
+</head>
+</html>
+<body class="loading">
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;"></a>
+    <div title="播放/暂停" class="icon-play"></div>
+    <h3 class="subtitle">熊掌号广告规范及搜索出图功能</h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+    <div class="section">
+        <div class="article">
+    <div class="main">
+        <h1 class="title">熊掌号广告规范及搜索出图功能</h1>
+        <div class="stuff">
+            <span>六月 09, 2018</span>
+            
+
+        </div>
+        <div class="content markdown">
+            <p>本周有在做熊掌号的开发工作，因为原本网站为了给APP导流，在落地页中加了很多的广告，但在熊掌号中对广告的要求是非常的严格的，那么接下来就现在分析下熊掌号对广告及内容的要求，只有知道规范，才能更快的帮助我们通过文章审核！</p>
+<p>1、文要对题，切忌堆词<br>例如：某网站提交的文章标题是：“西红炒鸡蛋的做法／制作视频／制作流程”，然而下面的正文中确没有关于相关的视频，那么这种情况就会被定义为文不对题，会影响到网站页面的排序和指数。</p>
+<p>2、广告面积，记清比例<br>主体内容前广告面积不得超过10%；主体内容中不得出现任何广告；主体内容之后，一屏广告面积不得超过40%，这几个数字一定要严格执行在落地页上，否则全都会被熊掌号拒绝的！</p>
+<p>3、浮层下载，千万不要<br>熊掌号对于落地页的另外一个严格要求是浮层类型的app下载等引导是绝对不行的，我们可以在自己的落地页固定位置放不超过广告面积大小的下载钮，但一定不要放太大的浮层下载，伤害了广大的搜索用户的体验。</p>
+<p>4、功能可用，过期别提<br>我们提交了一个落地页，就要确保这个落地页里面的功能是可用的，例如在页面里设置了写评论，点击以后要求用户必须下载这个app，类似的情况都会被认为是功能不可用，也是熊掌号打击的一个主要问题；另外，如果落地页的活动或者秒杀已经过期结束的，那么也是没有任何价值的落地页，对于这类型的页面url，资源方要自行先检查清楚，做到提什么数据心中有数，才能百分百被熊掌号收录的。</p>
+<p>接下来说一下搜索出图的功能，我们先来看一下展现的样式，比如说我们搜索‘西红柿炒鸡蛋’，百度搜索引擎会给我们显示如下：<br><img src="https://upload-images.jianshu.io/upload_images/8270338-20fed08cc4211a37.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="微信图片_20180609212723.jpg"><br>我们看最上面的图文格式，就是由熊掌号进行提供的，接下来我们点进去看下：<br><img src="https://upload-images.jianshu.io/upload_images/8270338-94b648dd5ac66c26.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="微信图片_20180609212735.jpg"><br>就落地到了该熊掌号的文章中。</p>
+<p>那么接下来我们说下实现这个功能的方法。<br>首先我们要在<code>&lt;/head&gt;</code>标签前添加link标签，起到聚焦权重的作用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;link rel=”canonical” href=”页面url” /&gt;</span><br></pre></td></tr></table></figure></p>
+<p>接下来要在<code>&lt;/head&gt;</code>前添加配置代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;script type=&quot;application/ld+json&quot;&gt;</span><br><span class="line">        &#123;</span><br><span class="line">            &quot;@context&quot;: &quot;https://ziyuan.baidu.com/contexts/cambrian.jsonld&quot;, //固定不变</span><br><span class="line">            &quot;@id&quot;: &quot;url&quot;,</span><br><span class="line">            &quot;appid&quot;: &quot;熊掌号id&quot;,</span><br><span class="line">            &quot;title&quot;: &quot;文章标题&quot;,</span><br><span class="line">            &quot;images&quot;: [</span><br><span class="line">                &quot;图片&quot; //这里配置一个或者三个图片，</span><br><span class="line">                ],</span><br><span class="line">            &quot;pubDate&quot;: &quot;文章发布时间，格式如：20180609T21：41：00&quot;</span><br><span class="line">        &#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure></p>
+<p>百度熊掌号官方给出的搜索结果出图要求如下：</p>
+<p>获得搜索结果出图权益，图片需满足以下要求：<br>1、图片必须出现在落地页中，且为落地页主图（在页面主体内容中，能反映页面主题、对用户有价值的图片）；<br>2、图片清晰度高，长宽比为3:2，图片大小不得低于300*200px；<br>3、图片主体内容要居中，且要展现完全（图片可能会裁剪边缘，若裁剪后效果不佳会影响展现）；<br>4、图片不能涉及低俗、色情、反动等；<br>5、同一篇内容中不能出现重复图片；<br>6、图片中不能是纯文字，不允许为广告图、色情图、纯色图、令人不适的图片；<br>7、图片中不得出现二维码、联系电话、微信号等受益方式；<br>8、图片水印只可添加熊掌号名称，且不可居于显著位置，不可大面积覆盖图片；<br>9、图片格式为JPG、GIF、PNG的静态图片，默认以JPG展示缩略图；<br>10、通过Json-ld方式提交的出图资源，有效链接量达30条以上；<br>11、通过Json-ld方式提交的搜索结果出图资源，需通过图片质量审核。</p>
+<p>这样搜索出图的功能也就做好了，希望能对大家有帮助。</p>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        <li title="0" data-url="http://link.hhtjim.com/163/5146554.mp3"></li>
+                    
+                        <li title="1" data-url="http://link.hhtjim.com/qq/001faIUs4M2zna.mp3"></li>
+                    
+                </ul>
+            
+        </div>
+        
+    <div id="gitalk-container" class="comment link" data-ae="false" data-ci="" data-cs="" data-r="" data-o="" data-a="" data-d="false">查看评论</div>
+
+
+    </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/diaspora.js"></script>
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</html>
