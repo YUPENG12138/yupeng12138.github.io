@@ -1,0 +1,153 @@
+
+<!DOCTYPE html>
+<html lang="" class="loading">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Hexo</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate">
+    <meta name="keywords" content="Fechin,"> 
+    <meta name="description" content="ES6之前，一个应用的每个JS文件所定义的内容都由全局作用域共享。在应用越来越复杂的情况下，就会导致命名冲突、安全问题等。所以就有了模块化。
+####基本导出使用export关键字，将变量、函数或者,"> 
+    <meta name="author" content="John Doe"> 
+    <link rel="alternative" href="atom.xml" title="Hexo" type="application/atom+xml"> 
+    <link rel="icon" href="/img/yu-favicon.png"> 
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <link rel="stylesheet" href="/css/diaspora.css">
+</head>
+</html>
+<body class="loading">
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;"></a>
+    <div title="播放/暂停" class="icon-play"></div>
+    <h3 class="subtitle">create-react-app中按需引入Ant-Design</h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+    <div class="section">
+        <div class="article">
+    <div class="main">
+        <h1 class="title">create-react-app中按需引入Ant-Design</h1>
+        <div class="stuff">
+            <span>二月 02, 2018</span>
+            
+
+        </div>
+        <div class="content markdown">
+            <p>先来回顾一下create-react-app脚手架创建项目的方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//安装create-react-app脚手架</span><br><span class="line">npm i create-react-app -g</span><br><span class="line">//创建项目</span><br><span class="line">create-react-app antd-demo</span><br><span class="line">//启动项目</span><br><span class="line">npm start</span><br></pre></td></tr></table></figure>
+<p>#####安装Ant-Design<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i antd -S</span><br></pre></td></tr></table></figure></p>
+<p>#####按需引入Ant-Design插件<br>这里需要用到两个插件<br>一、<br> <a href="https://github.com/timarney/react-app-rewired" target="_blank" rel="noopener">react-app-rewired</a>（一个对 create-react-app 进行自定义配置的社区解决方案）。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i react-app-rewired -D</span><br></pre></td></tr></table></figure></p>
+<p>然后更改一下package.json,这里有个坑，我们用create-react-app安装出来的package.json并不是都是使用<code>react-scripts start</code>这种方式，还有<code>node scripts/start.js</code>这种方式的，在第二种方式下这种更改就会出现问题，目前我还没有想到解决的方法，目前建议就是多试几次，尴尬😅。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">/* package.json */</span><br><span class="line">&quot;scripts&quot;: &#123;</span><br><span class="line">-   &quot;start&quot;: &quot;react-scripts start&quot;,</span><br><span class="line">+   &quot;start&quot;: &quot;react-app-rewired start&quot;,</span><br><span class="line">-   &quot;build&quot;: &quot;react-scripts build&quot;,</span><br><span class="line">+   &quot;build&quot;: &quot;react-app-rewired build&quot;,</span><br><span class="line">-   &quot;test&quot;: &quot;react-scripts test --env=jsdom&quot;,</span><br><span class="line">+   &quot;test&quot;: &quot;react-app-rewired test --env=jsdom&quot;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>然后在项目根目录创建一个 config-overrides.js 用于修改默认配置。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">module.exports = function override(config, env) &#123;</span><br><span class="line">  // do stuff with the webpack config...</span><br><span class="line">  return config;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>二、<br><a href="https://github.com/ant-design/babel-plugin-import" target="_blank" rel="noopener">babel-plugin-import</a> （一个用于按需加载组件代码和样式的 babel 插件）。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i babel-plugin-import -D</span><br></pre></td></tr></table></figure></p>
+<p>修改 config-overrides.js 文件。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">const &#123; injectBabelPlugin &#125; = require(&apos;react-app-rewired&apos;);</span><br><span class="line"></span><br><span class="line">  module.exports = function override(config, env) &#123;</span><br><span class="line">   config = injectBabelPlugin([&apos;import&apos;, &#123; libraryName: &apos;antd&apos;, libraryDirectory: &apos;es&apos;, style: &apos;css&apos; &#125;], config);</span><br><span class="line">    return config;</span><br><span class="line">  &#125;;</span><br></pre></td></tr></table></figure></p>
+<p>经过上面两部的操作，我们的antd的按需引入就设置好了。</p>
+<p>在组件中使用时，方法如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">import React, &#123; Component &#125; from &apos;react&apos;;</span><br><span class="line">import ReactDOM from &apos;react-dom&apos;;</span><br><span class="line">//如下方式进行引入，这样就会按需引入所需的js和css了</span><br><span class="line">import &#123; Button, Icon, Row, Col &#125; from &apos;antd&apos;;</span><br><span class="line">import &apos;./index.css&apos;;</span><br><span class="line">import registerServiceWorker from &apos;./registerServiceWorker&apos;;</span><br><span class="line"></span><br><span class="line">class App extends Component &#123;</span><br><span class="line">    render() &#123;</span><br><span class="line">        return (</span><br><span class="line">            &lt;div className=&quot;App&quot;&gt;</span><br><span class="line">                button&lt;Button type=&quot;primary&quot;&gt;Button&lt;/Button&gt;&lt;br /&gt;</span><br><span class="line">                icon&lt;Icon type=&quot;link&quot; /&gt;&lt;br /&gt;</span><br><span class="line">                &lt;div className=&quot;grid&quot;&gt;</span><br><span class="line">                    &lt;Row className=&quot;row&quot;&gt;</span><br><span class="line">                        &lt;Col className=&quot;col&quot; span=&#123;12&#125;&gt;col-12&lt;/Col&gt;</span><br><span class="line">                        &lt;Col className=&quot;col&quot; span=&#123;12&#125;&gt;col-12&lt;/Col&gt;</span><br><span class="line">                    &lt;/Row&gt;</span><br><span class="line">                    &lt;Row className=&quot;row&quot;&gt;</span><br><span class="line">                        &lt;Col className=&quot;col&quot; span=&#123;8&#125;&gt;col-8&lt;/Col&gt;</span><br><span class="line">                        &lt;Col className=&quot;col&quot; span=&#123;8&#125;&gt;col-8&lt;/Col&gt;</span><br><span class="line">                        &lt;Col className=&quot;col&quot; span=&#123;8&#125;&gt;col-8&lt;/Col&gt;</span><br><span class="line">                    &lt;/Row&gt;</span><br><span class="line">                    &lt;Row className=&quot;row&quot;&gt;</span><br><span class="line">                        &lt;Col className=&quot;col&quot; span=&#123;6&#125;&gt;col-6&lt;/Col&gt;</span><br><span class="line">                        &lt;Col className=&quot;col&quot; span=&#123;6&#125;&gt;col-6&lt;/Col&gt;</span><br><span class="line">                        &lt;Col className=&quot;col&quot; span=&#123;6&#125;&gt;col-6&lt;/Col&gt;</span><br><span class="line">                        &lt;Col className=&quot;col&quot; span=&#123;6&#125;&gt;col-6&lt;/Col&gt;</span><br><span class="line">                    &lt;/Row&gt;</span><br><span class="line">                &lt;/div&gt;</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">ReactDOM.render(&lt;App /&gt;, document.getElementById(&apos;root&apos;));</span><br><span class="line">registerServiceWorker();</span><br></pre></td></tr></table></figure></p>
+<p>上面引用了antd的三个组件，按钮、icon和栅格。效果如下<br><img src="http://upload-images.jianshu.io/upload_images/8270338-3b0faeb1643500f2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        <li title="0" data-url="http://link.hhtjim.com/163/5146554.mp3"></li>
+                    
+                        <li title="1" data-url="http://link.hhtjim.com/qq/001faIUs4M2zna.mp3"></li>
+                    
+                </ul>
+            
+        </div>
+        
+    <div id="gitalk-container" class="comment link" data-ae="false" data-ci="" data-cs="" data-r="" data-o="" data-a="" data-d="false">查看评论</div>
+
+
+    </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/diaspora.js"></script>
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</html>

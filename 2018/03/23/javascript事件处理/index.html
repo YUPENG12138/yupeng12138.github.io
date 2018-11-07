@@ -1,0 +1,154 @@
+
+<!DOCTYPE html>
+<html lang="" class="loading">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Hexo</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate">
+    <meta name="keywords" content="Fechin,"> 
+    <meta name="description" content="ES6之前，一个应用的每个JS文件所定义的内容都由全局作用域共享。在应用越来越复杂的情况下，就会导致命名冲突、安全问题等。所以就有了模块化。
+####基本导出使用export关键字，将变量、函数或者,"> 
+    <meta name="author" content="John Doe"> 
+    <link rel="alternative" href="atom.xml" title="Hexo" type="application/atom+xml"> 
+    <link rel="icon" href="/img/yu-favicon.png"> 
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <link rel="stylesheet" href="/css/diaspora.css">
+</head>
+</html>
+<body class="loading">
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;"></a>
+    <div title="播放/暂停" class="icon-play"></div>
+    <h3 class="subtitle">javascript事件处理</h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+    <div class="section">
+        <div class="article">
+    <div class="main">
+        <h1 class="title">javascript事件处理</h1>
+        <div class="stuff">
+            <span>三月 23, 2018</span>
+            
+
+        </div>
+        <div class="content markdown">
+            <p>####事件处理的经典用法<br>有很多时候，我们只是用到了event所提供的信息的一小部分，例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// 不好的写法</span><br><span class="line">function handleClick(event) &#123;</span><br><span class="line">    var popup = document.getElementById(&quot;popup&quot;);</span><br><span class="line">    popup.style.left = event.clientX + &quot;px&quot;;</span><br><span class="line">    popup.style.top = event.clientY + &quot;px&quot;;</span><br><span class="line">    popup.className = &quot;reveal&quot;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">addListener(element, &quot;click&quot;, handleClick);</span><br></pre></td></tr></table></figure></p>
+<p>这段代码看起来非常简单，没有什么问题，但是实际上是不好的写法，因为这种做法有其局限性。</p>
+<p>####隔离应用逻辑<br>问题1：<br>上面的代码中，事件处理程序包含了应用逻辑。应用逻辑是和应用相关的功能性代码，而不是和用户行为相关的。如上段代码中，应用逻辑是在特定位置显示一个弹出框。将应用逻辑从事件处理程序中抽离出来是一种最佳实践，因为说不定什么时候其他地方就会触发同一段逻辑。比如，有时你需要在用户将鼠标移到某个元素上时判断是否显示弹出框，或者当按下键盘上的某个键时也作同样的逻辑判断，这样多个时间的处理程序执行了同样的逻辑，而你的代码却被不小心复制了多份<br>问题2：<br>测试时需要直接触发功能代码，而不必通过模拟对元素的点击来触发。如果将应用逻辑放置于事件处理程序中，唯一的测试方法是制造事件的触发，而调用功能性代码最好的做法就是单个的函数调用。</p>
+<p>所以我们需要将应用逻辑和事件处理的代码拆分开：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">// 好的写法 - 拆分应用逻辑</span><br><span class="line">var MyApplication = &#123;</span><br><span class="line">    //handleClick方法只做一件事情，即调用MyApplication.showPopup()</span><br><span class="line">    handleClick: function(event) &#123;</span><br><span class="line">        this.showPopup(event);</span><br><span class="line">    &#125;,</span><br><span class="line">    showPopup: function(event) &#123;</span><br><span class="line">        var popup = document.getElementById(&quot;popup&quot;);</span><br><span class="line">        popup.style.left = event.clientX + &quot;px&quot;;</span><br><span class="line">        popup.style.top = event.clientY + &quot;px&quot;;</span><br><span class="line">        popup.className =&quot;reveal&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">addListener(element, &quot;click&quot;, function(event) &#123;</span><br><span class="line">    MyApplication.handleClick(event);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>应用逻辑被剥离出去，对同一段功能代码的调用可以在多点发生，则不需要一定依赖于某个特定事件的触发。</p>
+<p>####不要分发事件对象<br>上面的代码还存在一个问题，就是event对象被无节制的分发，从handleClick，到showPopup。event对象上包含很多和事件有关的信息，而这段代码只用到了clientX，clientY。</p>
+<p>应用逻辑不应该依赖于event对象来正确完成功能，原因如下：<br>1、方法接口并没有表明哪些数据是必要的。好的API一定是对于期望和依赖都是透明的。将event对象作为参数并不能告诉你event的哪些属性是有用的，用来干什么。<br>2、如果你想测试这个方法，你必须重新创建一个event对象并将它作为参数传入。所以，你需要确切地知道这个方法使用了哪些信息，这样才能正确地写出测试代码。</p>
+<p>最佳的方法是让事件处理程序使用event对象来处理事件，然后拿到所有需要的数据传给应用逻辑，例如MyApplication.showPopup()只需要两个数据，x坐标和y坐标。所以我们可以这样重写下方法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">// 好的写法</span><br><span class="line">var MyApplication = &#123;</span><br><span class="line"></span><br><span class="line">    handleClick: function(event) &#123;</span><br><span class="line">        this.showPopup(event.clientX, event.clientY);</span><br><span class="line">    &#125;,</span><br><span class="line"></span><br><span class="line">    showPopup: function(x, y) &#123;</span><br><span class="line">        var popup = document.getElementById(&quot;popup&quot;);</span><br><span class="line">        popup.style.left = x +&quot;px&quot;;</span><br><span class="line">        popup.style.top = y +&quot;px&quot;;</span><br><span class="line">        popup.className = &quot;reveal&quot;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">addListener(element, &quot;click&quot;, function(event) &#123;</span><br><span class="line">    MyApplication.handleClick(event);   //可以这样用</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>在测试或者代码的任意位置都可以很轻易的调用这段逻辑，比如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MyApplication.showPopup(10, 10);</span><br></pre></td></tr></table></figure>
+<p>应用逻辑不需要对event产生依赖，进而在很多地方都可以轻松的使用相同的业务逻辑，包括写测试代码。</p>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        <li title="0" data-url="http://link.hhtjim.com/163/5146554.mp3"></li>
+                    
+                        <li title="1" data-url="http://link.hhtjim.com/qq/001faIUs4M2zna.mp3"></li>
+                    
+                </ul>
+            
+        </div>
+        
+    <div id="gitalk-container" class="comment link" data-ae="false" data-ci="" data-cs="" data-r="" data-o="" data-a="" data-d="false">查看评论</div>
+
+
+    </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/diaspora.js"></script>
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</html>
