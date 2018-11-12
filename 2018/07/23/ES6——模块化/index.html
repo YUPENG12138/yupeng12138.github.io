@@ -12,7 +12,7 @@
     <meta name="google" content="notranslate">
     <meta name="keywords" content="Fechin,"> 
     <meta name="description" content="ES6之前，一个应用的每个JS文件所定义的内容都由全局作用域共享。在应用越来越复杂的情况下，就会导致命名冲突、安全问题等。所以就有了模块化。
-####基本导出使用export关键字，将变量、函数或者,"> 
+基本导出使用export关键字，将变量、函数或者类导出。,"> 
     <meta name="author" content="John Doe"> 
     <link rel="alternative" href="atom.xml" title="于晓俞的博客" type="application/atom+xml"> 
     <link rel="icon" href="/img/yu-favicon.png"> 
@@ -52,11 +52,11 @@
         </div>
         <div class="content markdown">
             <p>ES6之前，一个应用的每个JS文件所定义的内容都由全局作用域共享。在应用越来越复杂的情况下，就会导致命名冲突、安全问题等。所以就有了模块化。</p>
-<p>####基本导出<br>使用<code>export</code>关键字，将变量、函数或者类导出。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">export let name = &apos;yuxiaiyu&apos;;</span><br><span class="line">export function getName () &#123;</span><br><span class="line">	return name;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function fun() &#123;</span><br><span class="line">	console.log(&apos;function&apos;);</span><br><span class="line">&#125;</span><br><span class="line">export &#123; fun &#125;;  //直接导出也行，最后再导出也行。</span><br></pre></td></tr></table></figure></p>
+<h4 id="基本导出"><a href="#基本导出" class="headerlink" title="基本导出"></a>基本导出</h4><p>使用<code>export</code>关键字，将变量、函数或者类导出。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">export let name = &apos;yuxiaiyu&apos;;</span><br><span class="line">export function getName () &#123;</span><br><span class="line">	return name;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function fun() &#123;</span><br><span class="line">	console.log(&apos;function&apos;);</span><br><span class="line">&#125;</span><br><span class="line">export &#123; fun &#125;;  //直接导出也行，最后再导出也行。</span><br></pre></td></tr></table></figure></p>
 <p>没有被导出的函数、变量为私有的，外部不可访问。</p>
-<p>####基本导出<br>可以使用<code>import</code>关键字进行导出已经导出的模块。<code>import</code>语句分为两部分，一是需要导入的标识符，二是导入标识符的来源模块。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import &#123; name, fun &#125; from &apos;./xxx.js&apos;</span><br></pre></td></tr></table></figure></p>
+<h4 id="基本导出-1"><a href="#基本导出-1" class="headerlink" title="基本导出"></a>基本导出</h4><p>可以使用<code>import</code>关键字进行导出已经导出的模块。<code>import</code>语句分为两部分，一是需要导入的标识符，二是导入标识符的来源模块。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import &#123; name, fun &#125; from &apos;./xxx.js&apos;</span><br></pre></td></tr></table></figure></p>
 <p>当从模块导入了一个绑定时，该绑定表现得就像使用了<code>const</code>定义。也就是说，我们不能再定义另一个同名的变量，不能在导入之前使用，不能修改。</p>
-<p>####完全导入一个模块<br>允许将整个模块当作单一对象进行导入，该模块的所有导出都会作为对象的属性存在。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import *as xxx from &apos;./xxx.js&apos;;</span><br></pre></td></tr></table></figure></p>
+<h4 id="完全导入一个模块"><a href="#完全导入一个模块" class="headerlink" title="完全导入一个模块"></a>完全导入一个模块</h4><p>允许将整个模块当作单一对象进行导入，该模块的所有导出都会作为对象的属性存在。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import *as xxx from &apos;./xxx.js&apos;;</span><br></pre></td></tr></table></figure></p>
 <p>无论我们对一个模块import了多少次，该模块都会只执行一次，在导出模块的代码执行之后，已被实例化的模块就被保留在内存中，并随时都能被其他<code>import</code>所引用。即使不同模块都导入了同一个模块，也只会执行一次，都会使用同一个模块实例。</p>
 <p><code>export</code>与<code>import</code>不能在其他语句或表达式的内部，只能在顶级作用域使用，且也不能动态的导入绑定。</p>
 
