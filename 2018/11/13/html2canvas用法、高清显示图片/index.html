@@ -1,0 +1,168 @@
+
+<!DOCTYPE html>
+<html lang="" class="loading">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>于晓俞的博客</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate">
+    <meta name="keywords" content="Fechin,"> 
+    <meta name="description" content="LIST
+DOM扩展获取元素
+classList
+自定义属性操作
+文件读取操作
+网络状态
+地理定位
+本地存储
+
+DOM扩展获取元素1231. document.getElementByClassNa,"> 
+    <meta name="author" content="John Doe"> 
+    <link rel="alternative" href="atom.xml" title="于晓俞的博客" type="application/atom+xml"> 
+    <link rel="icon" href="/img/yu-favicon.png"> 
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <link rel="stylesheet" href="/css/diaspora.css">
+</head>
+</html>
+<body class="loading">
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;"></a>
+    <div title="播放/暂停" class="icon-play"></div>
+    <h3 class="subtitle">html2canvas用法、高清显示图片</h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
+        <div>
+            <div class="share">
+                <a title="获取二维码" style="display: none;" class="icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+    <div class="section">
+        <div class="article">
+    <div class="main">
+        <h1 class="title">html2canvas用法、高清显示图片</h1>
+        <div class="stuff">
+            <span>十一月 13, 2018</span>
+            
+
+        </div>
+        <div class="content markdown">
+            <p>首先附上html2canvas github地址：<a href="https://github.com/niklasvh/html2canvas" target="_blank" rel="noopener">https://github.com/niklasvh/html2canvas</a></p>
+<p>这个插件的作用就是利用js进行页面截图，在实际操作之前先了解下官方文档：</p>
+<h4 id="官方简介："><a href="#官方简介：" class="headerlink" title="官方简介："></a>官方简介：</h4><p>&nbsp;&nbsp;The script allows you to take “screenshots” of webpages or parts of it, directly on the users browser. The screenshot is based on the DOM and as such may not be 100% accurate to the real representation as it does not make an actual screenshot, but builds the screenshot based on the information available on the page.</p>
+<p>&emsp;&emsp;这个脚本允许你在用户浏览器上直接对网页或部分内容进行“截图”。屏幕截图是基于DOM的，因此它可能不是100%的精确到真实的表示，因为它不做实际的屏幕截图，而是基于页面上可用的信息构建屏幕截图。</p>
+<p>&nbsp;&nbsp;The script renders the current page as a canvas image, by reading the DOM and the different styles applied to the elements.</p>
+<p>&emsp;&emsp;脚本通过读取DOM和应用于元素的不同样式，将当前页面渲染成一个canvas图片。</p>
+<h4 id="html2canvas的局限性："><a href="#html2canvas的局限性：" class="headerlink" title="html2canvas的局限性："></a>html2canvas的局限性：</h4><p>&emsp;&emsp;在没有代理的情况下，页面中的图片不能跨域；</p>
+<p>&emsp;&emsp;对一些CSS属性支持并不是很好；</p>
+<p>&emsp;&emsp;不支持flash和iframe标签；</p>
+<h4 id="使用方法："><a href="#使用方法：" class="headerlink" title="使用方法："></a>使用方法：</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//新版使用：          </span></span><br><span class="line">html2canvas(<span class="built_in">document</span>.body, options).then(<span class="function"><span class="keyword">function</span>(<span class="params">canvas</span>)</span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">document</span>.body.appendChild(canvas);          </span><br><span class="line"></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//旧版使用：          </span></span><br><span class="line">html2canvas(<span class="built_in">document</span>.body, &#123;</span><br><span class="line"></span><br><span class="line">    onrenderd: <span class="function"><span class="keyword">function</span>(<span class="params">canvas&#123;</span></span></span><br><span class="line"><span class="function"><span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">        document.body.appendChild(canvas</span>);              </span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">    &#125;,</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">    <span class="title">width</span>: <span class="title">xx</span>,</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">    ... // <span class="title">other</span> <span class="title">options</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"> &#125;);</span></span><br></pre></td></tr></table></figure>
+<h4 id="可配置参数："><a href="#可配置参数：" class="headerlink" title="可配置参数："></a>可配置参数：</h4><p><img src="/img/html2canvas/1.png" alt=""></p>
+<h4 id="实现："><a href="#实现：" class="headerlink" title="实现："></a>实现：</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">functionscreenshot(id,evt,option)&#123;</span><br><span class="line"></span><br><span class="line">    functionshotCb()&#123;</span><br><span class="line"></span><br><span class="line">        option=option||&#123;&#125;;</span><br><span class="line"></span><br><span class="line">        event.preventDefault();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">var</span> width=<span class="built_in">document</span>.body.clientWidth;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">var</span> height=<span class="built_in">document</span>.body.clientHeight;</span><br><span class="line"></span><br><span class="line">        html2canvas(<span class="built_in">document</span>.body, &#123;</span><br><span class="line"></span><br><span class="line">            width:option.width||width,</span><br><span class="line"></span><br><span class="line">            height:option.height||height,</span><br><span class="line"></span><br><span class="line">            onrendered:<span class="function"><span class="keyword">function</span>(<span class="params">canvas</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">                <span class="comment">//生成base64图片数据</span></span><br><span class="line"></span><br><span class="line">                <span class="keyword">var</span> dataUrl=canvas.toDataURL();</span><br><span class="line"></span><br><span class="line">                <span class="comment">// document.body.innerHTML="";</span></span><br><span class="line"></span><br><span class="line">                <span class="keyword">var</span> newImg=<span class="built_in">document</span>.createElement(<span class="string">"img"</span>);</span><br><span class="line"></span><br><span class="line">                newImg.src=dataUrl;</span><br><span class="line"></span><br><span class="line">                <span class="built_in">document</span>.body.appendChild(newImg);</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">document</span>.getElementById(id).addEventListener(evt,<span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">        shotCb();</span><br><span class="line"></span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">screenshot(<span class="string">"btn"</span>,<span class="string">"click"</span>);</span><br></pre></td></tr></table></figure>
+<h4 id="效果："><a href="#效果：" class="headerlink" title="效果："></a>效果：</h4><p><img src="/img/html2canvas/2.jpeg" alt=""></p>
+<h4 id="问题点："><a href="#问题点：" class="headerlink" title="问题点："></a>问题点：</h4><p>&emsp;&emsp;图1中上半部分为DOM截图，下半部分为生成的图片，可以明显的看出来图片变得模糊了，所以接下来我们要解决图片显示高清的问题。</p>
+<h4 id="高清显示图片："><a href="#高清显示图片：" class="headerlink" title="高清显示图片："></a>高清显示图片：</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">shotCb</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line"></span><br><span class="line">    option=option||&#123;&#125;;</span><br><span class="line"></span><br><span class="line">    event.preventDefault();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> width=<span class="built_in">document</span>.body.clientWidth;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> height=<span class="built_in">document</span>.body.clientHeight;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//要将 canvas 的宽高设置成容器宽高的 2 倍</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> canvas=<span class="built_in">document</span>.createElement(<span class="string">"canvas"</span>);</span><br><span class="line"></span><br><span class="line">    canvas.width=width*<span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">    canvas.height=height*<span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">    canvas.style.width=width+<span class="string">"px"</span>;</span><br><span class="line"></span><br><span class="line">    canvas.style.height=height+<span class="string">"px"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> context=canvas.getContext(<span class="string">"2d"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//然后将画布缩放，将图像放大两倍画到画布上</span></span><br><span class="line"></span><br><span class="line">    context.scale(<span class="number">2</span>,<span class="number">2</span>);</span><br><span class="line"></span><br><span class="line">    html2canvas(<span class="built_in">document</span>.body, &#123;</span><br><span class="line"></span><br><span class="line">        width:option.width||width,</span><br><span class="line"></span><br><span class="line">        height:option.height||height,</span><br><span class="line"></span><br><span class="line">        canvas:canvas,</span><br><span class="line"></span><br><span class="line">        onrendered:<span class="function"><span class="keyword">function</span>(<span class="params">canvas</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//生成base64图片数据</span></span><br><span class="line"></span><br><span class="line">            <span class="keyword">var</span> dataUrl=canvas.toDataURL();</span><br><span class="line"></span><br><span class="line">            <span class="keyword">var</span> newImg=<span class="built_in">document</span>.createElement(<span class="string">"img"</span>);</span><br><span class="line"></span><br><span class="line">            newImg.src=dataUrl;</span><br><span class="line"></span><br><span class="line">            newImg.width=<span class="keyword">this</span>.width;</span><br><span class="line"></span><br><span class="line">            newImg.height=<span class="keyword">this</span>.height;</span><br><span class="line"></span><br><span class="line">            <span class="built_in">document</span>.body.appendChild(newImg);</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>效果：<br><img src="/img/html2canvas/3.jpeg" alt=""></p>
+<p>在改动之后，生成的图片变得和原先页面中显示的一样清晰了。原理是，在我们画这张图片的时候，将canvas画布翻倍，画的内容也就翻倍了，这样生成的图片就是基础生成图片的2倍图，这样就会变得清晰了。</p>
+<p>在实际项目中应用时，由于公司静态资源都会放在不同的服务器，导致产生跨域问题，图片无法显示出来，这时候，插件提供的各种参数就派上用场了，例如公司在设置图片时，设置了Access-Control-Allow-Origin，这样图片就可以跨域请求了，然后我们只要将插件的useCORS设置为true，这样，跨域的图片就可以进行截图了。</p>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        <li title="0" data-url="http://link.hhtjim.com/163/5146554.mp3"></li>
+                    
+                        <li title="1" data-url="http://link.hhtjim.com/qq/001faIUs4M2zna.mp3"></li>
+                    
+                </ul>
+            
+        </div>
+        
+    <div id="gitalk-container" class="comment link" data-ae="false" data-ci="" data-cs="" data-r="" data-o="" data-a="" data-d="false">查看评论</div>
+
+
+    </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/diaspora.js"></script>
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</html>

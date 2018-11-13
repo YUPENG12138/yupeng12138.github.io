@@ -11,7 +11,16 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="google" content="notranslate">
     <meta name="keywords" content="Fechin,"> 
-    <meta name="description" content="DOM扩展获取元素1231. document.getElementByClassName(&amp;apos;class&amp;apos;); //通过类名获取元素，以伪数组形式存在。2. document.q,"> 
+    <meta name="description" content="LIST
+DOM扩展获取元素
+classList
+自定义属性操作
+文件读取操作
+网络状态
+地理定位
+本地存储
+
+DOM扩展获取元素1231. document.getElementByClassNa,"> 
     <meta name="author" content="John Doe"> 
     <link rel="alternative" href="atom.xml" title="于晓俞的博客" type="application/atom+xml"> 
     <link rel="icon" href="/img/yu-favicon.png"> 
@@ -57,7 +66,7 @@
 <p>4、功能可用，过期别提<br>我们提交了一个落地页，就要确保这个落地页里面的功能是可用的，例如在页面里设置了写评论，点击以后要求用户必须下载这个app，类似的情况都会被认为是功能不可用，也是熊掌号打击的一个主要问题；另外，如果落地页的活动或者秒杀已经过期结束的，那么也是没有任何价值的落地页，对于这类型的页面url，资源方要自行先检查清楚，做到提什么数据心中有数，才能百分百被熊掌号收录的。</p>
 <p>接下来说一下搜索出图的功能，我们先来看一下展现的样式，比如说我们搜索‘西红柿炒鸡蛋’，百度搜索引擎会给我们显示如下：<br><img src="https://upload-images.jianshu.io/upload_images/8270338-20fed08cc4211a37.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="微信图片_20180609212723.jpg"><br>我们看最上面的图文格式，就是由熊掌号进行提供的，接下来我们点进去看下：<br><img src="https://upload-images.jianshu.io/upload_images/8270338-94b648dd5ac66c26.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="微信图片_20180609212735.jpg"><br>就落地到了该熊掌号的文章中。</p>
 <p>那么接下来我们说下实现这个功能的方法。<br>首先我们要在<code>&lt;/head&gt;</code>标签前添加link标签，起到聚焦权重的作用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;link rel=”canonical” href=”页面url” /&gt;</span><br></pre></td></tr></table></figure></p>
-<p>接下来要在<code>&lt;/head&gt;</code>前添加配置代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;script type=&quot;application/ld+json&quot;&gt;</span><br><span class="line">        &#123;</span><br><span class="line">            &quot;@context&quot;: &quot;https://ziyuan.baidu.com/contexts/cambrian.jsonld&quot;, //固定不变</span><br><span class="line">            &quot;@id&quot;: &quot;url&quot;,</span><br><span class="line">            &quot;appid&quot;: &quot;熊掌号id&quot;,</span><br><span class="line">            &quot;title&quot;: &quot;文章标题&quot;,</span><br><span class="line">            &quot;images&quot;: [</span><br><span class="line">                &quot;图片&quot; //这里配置一个或者三个图片，</span><br><span class="line">                ],</span><br><span class="line">            &quot;pubDate&quot;: &quot;文章发布时间，格式如：20180609T21：41：00&quot;</span><br><span class="line">        &#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure></p>
+<p>接下来要在<code>&lt;/head&gt;</code>前添加配置代码：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;script type=<span class="string">"application/ld+json"</span>&gt;</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="string">"@context"</span>: <span class="string">"https://ziyuan.baidu.com/contexts/cambrian.jsonld"</span>, <span class="comment">//固定不变</span></span><br><span class="line">            <span class="string">"@id"</span>: <span class="string">"url"</span>,</span><br><span class="line">            <span class="string">"appid"</span>: <span class="string">"熊掌号id"</span>,</span><br><span class="line">            <span class="string">"title"</span>: <span class="string">"文章标题"</span>,</span><br><span class="line">            <span class="string">"images"</span>: [</span><br><span class="line">                <span class="string">"图片"</span> <span class="comment">//这里配置一个或者三个图片，</span></span><br><span class="line">                ],</span><br><span class="line">            <span class="string">"pubDate"</span>: <span class="string">"文章发布时间，格式如：20180609T21：41：00"</span></span><br><span class="line">        &#125;</span><br><span class="line">&lt;<span class="regexp">/script&gt;</span></span><br></pre></td></tr></table></figure></p>
 <p>百度熊掌号官方给出的搜索结果出图要求如下：</p>
 <p>获得搜索结果出图权益，图片需满足以下要求：<br>1、图片必须出现在落地页中，且为落地页主图（在页面主体内容中，能反映页面主题、对用户有价值的图片）；<br>2、图片清晰度高，长宽比为3:2，图片大小不得低于300*200px；<br>3、图片主体内容要居中，且要展现完全（图片可能会裁剪边缘，若裁剪后效果不佳会影响展现）；<br>4、图片不能涉及低俗、色情、反动等；<br>5、同一篇内容中不能出现重复图片；<br>6、图片中不能是纯文字，不允许为广告图、色情图、纯色图、令人不适的图片；<br>7、图片中不得出现二维码、联系电话、微信号等受益方式；<br>8、图片水印只可添加熊掌号名称，且不可居于显著位置，不可大面积覆盖图片；<br>9、图片格式为JPG、GIF、PNG的静态图片，默认以JPG展示缩略图；<br>10、通过Json-ld方式提交的出图资源，有效链接量达30条以上；<br>11、通过Json-ld方式提交的搜索结果出图资源，需通过图片质量审核。</p>
 <p>这样搜索出图的功能也就做好了，希望能对大家有帮助。</p>

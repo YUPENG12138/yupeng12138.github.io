@@ -1,0 +1,169 @@
+
+<!DOCTYPE html>
+<html lang="" class="loading">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>于晓俞的博客</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate">
+    <meta name="keywords" content="Fechin,"> 
+    <meta name="description" content="LIST
+DOM扩展获取元素
+classList
+自定义属性操作
+文件读取操作
+网络状态
+地理定位
+本地存储
+
+DOM扩展获取元素1231. document.getElementByClassNa,"> 
+    <meta name="author" content="John Doe"> 
+    <link rel="alternative" href="atom.xml" title="于晓俞的博客" type="application/atom+xml"> 
+    <link rel="icon" href="/img/yu-favicon.png"> 
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <link rel="stylesheet" href="/css/diaspora.css">
+</head>
+</html>
+<body class="loading">
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;"></a>
+    <div title="播放/暂停" class="icon-play"></div>
+    <h3 class="subtitle">浅谈大型网站架构演化发展历程</h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
+        <div>
+            <div class="share">
+                <a title="获取二维码" style="display: none;" class="icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+    <div class="section">
+        <div class="article">
+    <div class="main">
+        <h1 class="title">浅谈大型网站架构演化发展历程</h1>
+        <div class="stuff">
+            <span>十一月 10, 2017</span>
+            
+
+        </div>
+        <div class="content markdown">
+            <p>最近读了关于网站技术架构的相关书籍，今天就根据书中所讲内容和大家分享一下网站的架构大致演化过程。<br><br></p>
+<p><center><h4>初始阶段的网站架构</h4></center><br>在网站刚刚开始的时候，并没有很多的访问量，所以只需要一台服务器就足够了，这时候的网站架构如下图所示：所有的应用服务器，数据库和文件都在同一台服务器上。<br><img src="/img/website_architecture/1.jpg" alt="" title="初始阶段的网站架构"><br><br></p>
+<p><center><h4>应用服务和数据服务的分离</h4></center><br>随着网站的业务发展，增加的访问导致性能降低，增加的数据导致存储空间不足，这时候就需要进行数据和应用的分离，分离后整个网站分为了三台：应用服务器，文件服务器，数据库服务器；三台服务器对硬件的要求各有不同，应用服务器因为需要处理大量的业务逻辑，所以需要更强大的CPU；文件服务器因为要存储更多的静态文件，所以需要更大的硬盘；数据库服务器因为需要快速磁盘检索和数据缓存，所以需要更快的硬盘和更大的内存。应用和数据的分离，提高了网站的并发处理能力和数据存储空间，使网站的性能得以改善。<br><img src="/img/website_architecture/2.jpg" alt="" title="应用服务和数据服务的分离"><br><br></p>
+<p><center><h4>网站使用缓存</h4></center><br>但随着用户的逐渐增多，频繁的数据库读写操作导致访问延迟，影响了整个网站的性能，这时候就需要继续优化。这里有一个二八定律：80%的业务访问集中在20%的数据上，例如：在逛淘宝买东西的时候，经常浏览的就是那些成交数多，评价好的商品上。既然大部分业务访问集中在少部分数据上，那么就可以将这一小部分数据进行缓存，从而降低数据库的访问压力（而且数据库的读写太慢了），从而提高网站性能。</p>
+<p>网站使用的缓存可以分为两种：1.缓存在应用服务器上的本地缓存，2.缓存在分布式缓存服务器上的远程缓存。本地缓存的访问速度更快，但因为内存限制，存储量有限。远程分布式缓存可以使用集群的方式，部署大内存的服务器作为专门的缓存服务器，网站的架构就演变到如下图所示：<br><img src="/img/website_architecture/3.jpg" alt="" title="网站使用缓存"><br><br></p>
+<p><center><h4>应用服务器集群部署</h4></center><br>在使用缓存后，数据库的访问得到有效缓解，但是单一应用服务器能够处理的请求连接有限，在网站访问并发很高的时候，应用服务器就成为了整个网站的瓶颈。</p>
+<p>于是开始考虑使用集群方式去解决高并发，海量数据问题。简单的来说，就是一个不够了就上两个，两个不够了就上一群。应用服务器实现集群是网站可伸缩集群架构设计中较为简单成熟的一种。在访问到达应用服务器之前，使用负载均衡调度服务器将访问平均的发送至各应用服务器。<br><img src="/img/website_architecture/4.jpg" alt="" title="应用服务器集群部署"><br><br></p>
+<p><center><h4>数据库的读写分离</h4></center><br>在使用缓存之后，绝大部分数据的操作访问都可以不通过数据库就能完成，但是仍有一部分读操作（缓存访问不命中、缓存过期）和全部的写操作需要访问数据库，在网站用户达到一定规模后，数据库因为负载压力过高而成为网站的瓶颈。目前大部分的主流数据库都提供主从热备功能，通过配置两台数据库主从关系，可以将一台数据库服务器和数据同步到另一台服务器上。网站在利用数据库的这一功能，实现数据库的读写分离，从而改善数据库负载压力。</p>
+<p>应用服务器在写数据的时候，访问主数据库，主数据库通过主从复制机制将数据更新同步到从数据库，这样当应用服务器读数据的时候，就可以通过从数据库获得数据。为了便于应用程序访问读写分离后的数据库，通常在应用服务器端使用专门的数据访问模块，使数据库读写分离对应用透明。<br><img src="/img/website_architecture/5.jpg" alt="" title="数据库的读写分离"><br><br></p>
+<p><center><h4>使用反向代理和CDN加速访问</h4></center><br>随着用户规模的变大，加之国内复杂的网络环境，不同地区的用户访问网站，速度的差异也是很大的。为了提供更好的用户体验，留住用户，网站需要加速网站访问速度，主要的手段有使用CDN和反向代理。如下图所示。CDN和反向代理的基本原理都是缓存，区别在于CDN部署在网络提供商的机房里，而反向代理部署在网站的中心机房，当用户请求到达中心机房后，首先访问的服务器是反向代理服务器，如果反向代理服务器中有缓存着用户所请求的数据，就将数据直接返回。使用CDN和反向代理的目的都是尽早返回数据给用户，一方面加快用户访问速度，另一方面也减轻后端服务器的负载压力。<br><img src="/img/website_architecture/6.jpg" alt="" title="使用反向代理和CDN加速访问"><br><br></p>
+<p><center><h4>使用分布式文件和分布式数据库系统</h4></center><br>任何强大的单一服务器都满足不了大型网站持续增长的业务需求，数据库经过读写分离后，从一台服务器拆分为两台服务器，但是随着网站业务的发展依旧不能满足需求，这时候就需要使用分布式数据库。文件系统也是一样，需要使用分布式文件系统。</p>
+<p>分布式数据库是网站数据库拆分的最后手段，只有在单表数据规模非常庞大的时候在使用，不到不得已时，网站更常用的数据库拆分手段是业务分库，将不同业务的数据库部署在不同的物理服务器上。<br><img src="/img/website_architecture/7.jpg" alt="" title="使用分布式文件和分布式数据库系统"><br><br></p>
+<p><center><h4>使用NoSQL系统和搜索引擎</h4></center><br>随着网站业务越来越复杂，对数据存储和检索的需求也越来越复杂，网站需要采用一些非关系数据库技术，如NoSQL和非数据库查询技术，如搜索引擎。NoSQL和搜索引擎都是源自互联网的技术手段，对可伸缩的分布式特性具有更好的支持。应用服务器则通过一个统一数据访问模块访问各种数据，减轻应用程序管理诸多数据源的麻烦。<br><img src="/img/website_architecture/8.jpg" alt="" title="使用NoSQL系统和搜索引擎"><br><br></p>
+<p><center><h4>应用拆分</h4></center><br>大型网站为了应对日益复杂的业务场景，就对整个网站的业务进行了不同产品线的拆分，如大型购物交易网站就会将首页、商铺、订单、卖家、买家等拆分成不同的产品线，分归不同的业务团队负责。</p>
+<p>具体到技术上，也会根据产品线划分，将一个网站拆分成许多不同的应用，每个应用独立部署维护。应用之间可以通过一个超链接建立联系，也可以通过消息队列进行数据分发，当然最多的还是通过访问同一数据存储系统来构成一个关联的完整系统。<br><img src="/img/website_architecture/9.jpg" alt="" title="应用拆分"><br><br></p>
+<p><center><h4>分布式服务</h4></center><br>随着业务拆分越来越小，存储系统越来越庞大，应用系统的整体复杂度呈指数级增加，部署维护越来越困难。由于所有应用要和数据库系统连接，在数万台服务器规模的网站中，这些链接的数据是服务器规模的平方，导致数据库存储连接资源不足，拒绝服务。</p>
+<p>既然每一个应用系统都需要执行许多相同的业务操作，比如用户管理，商品管理等，那么可以将这些共用的业务提取出来，独立部署。由这些可复用的业务连接数据库，提供共用业务服务，而应用系统只需要管理用户界面，通过分布式服务调用共用业务服务完成具体业务操作。<br><img src="/img/website_architecture/10.jpg" alt="" title="分布式服务"><br><br></p>
+<p>大型网站的架构演化到这里，基本上大多数的技术问题都得以解决，诸如跨数据中心的实时数据同步和具体网站业务相关的问题也都可以通过组合改进现有技术框架来解决。</p>
+<p>但事物发展到一定阶段，就会拥有自身的发展冲动，摆脱初衷，向着使自己更轻大的方向发展。既然大型网站架构解决了海量数据的管理和高并发事务的处理，那么就可以把这些解决方案应用到网站自身以外的业务上去。我们看到目前许多大型网站都开始建设云计算平台，将计算作为一种基础资源出售，中小网站不需要再关心技术架构问题，只需要按需付费，就可以使网站随着业务的增长逐渐获得更大的存储空间和更多的计算资源。</p>
+<p>以上就是网站架构演化的大致历程了，只是讲述了下发展的流程，具体实现根据实际要求不同也会有所差异。希望本文能够对大家理解网站架构上有所帮助。</p>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        <li title="0" data-url="http://link.hhtjim.com/163/5146554.mp3"></li>
+                    
+                        <li title="1" data-url="http://link.hhtjim.com/qq/001faIUs4M2zna.mp3"></li>
+                    
+                </ul>
+            
+        </div>
+        
+    <div id="gitalk-container" class="comment link" data-ae="false" data-ci="" data-cs="" data-r="" data-o="" data-a="" data-d="false">查看评论</div>
+
+
+    </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/diaspora.js"></script>
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</html>

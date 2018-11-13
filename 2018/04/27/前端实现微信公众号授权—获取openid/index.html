@@ -11,7 +11,16 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="google" content="notranslate">
     <meta name="keywords" content="Fechin,"> 
-    <meta name="description" content="DOM扩展获取元素1231. document.getElementByClassName(&amp;apos;class&amp;apos;); //通过类名获取元素，以伪数组形式存在。2. document.q,"> 
+    <meta name="description" content="LIST
+DOM扩展获取元素
+classList
+自定义属性操作
+文件读取操作
+网络状态
+地理定位
+本地存储
+
+DOM扩展获取元素1231. document.getElementByClassNa,"> 
     <meta name="author" content="John Doe"> 
     <link rel="alternative" href="atom.xml" title="于晓俞的博客" type="application/atom+xml"> 
     <link rel="icon" href="/img/yu-favicon.png"> 
@@ -58,7 +67,7 @@
 <p>第一步：用户同意授权，获取code。<br>我们需要在进入页面之前，先请求这个<code>url: https://open.weixin.qq.com/connect/oauth2/authorize</code><br>有如下几个参数：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">appid  必须 公众号的唯一标识</span><br><span class="line">redirect_url 必须 授权后跳转页面 请使用urlEncode对链接进行处理</span><br><span class="line">response_type 必须 直接填code</span><br><span class="line">scope 必须 应用授权作用域 后面详细讲解</span><br><span class="line">state 非必须 参数 返回时会是 state=XXXXXXXXX</span><br><span class="line">#wechat_redirect 必须 无论直接打开还是做页面302重定向时候，必须带此参数</span><br></pre></td></tr></table></figure></p>
 <p>其中scope 分为两种情况：<br>一种是<code>snsapi_base</code>，只获取openid，这种方式不会弹窗，只会静默授权，用户无感。<br>另一种是<code>snsapi_userinfo</code>，弹出授权页面，可通过openid拿到昵称，性别，所在地。即使未关注，也能获取其信息。</p>
 <p>在请求授权成功后，会跳转至<code>redirect_uri/?code=CODE&amp;state=STATE</code>。<br>在获取到<code>code</code>之后，我们去请求这个url:<code>https://api.weixin.qq.com/sns/oauth2/access_token</code>,这里涉及到四个参数：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">appid 必须 公众号的唯一标识</span><br><span class="line">secret 必须 公众号的appsecret</span><br><span class="line">code 必须 第一步获取的code参数</span><br><span class="line">grant_type 必须 直接写authorization_code</span><br></pre></td></tr></table></figure></p>
-<p>这一步就必须在服务器实现了，否则会出现跨域的问题<br>正确请求后就会返回JSON数据：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123; </span><br><span class="line">  &quot;access_token&quot;:&quot;ACCESS_TOKEN&quot;,</span><br><span class="line">  &quot;expires_in&quot;:7200,</span><br><span class="line">  &quot;refresh_token&quot;:&quot;REFRESH_TOKEN&quot;,</span><br><span class="line">  &quot;openid&quot;:&quot;OPENID&quot;,</span><br><span class="line">  &quot;scope&quot;:&quot;SCOPE&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这一步就必须在服务器实现了，否则会出现跨域的问题<br>正确请求后就会返回JSON数据：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123; </span><br><span class="line">  <span class="string">"access_token"</span>:<span class="string">"ACCESS_TOKEN"</span>,</span><br><span class="line">  <span class="string">"expires_in"</span>:<span class="number">7200</span>,</span><br><span class="line">  <span class="string">"refresh_token"</span>:<span class="string">"REFRESH_TOKEN"</span>,</span><br><span class="line">  <span class="string">"openid"</span>:<span class="string">"OPENID"</span>,</span><br><span class="line">  <span class="string">"scope"</span>:<span class="string">"SCOPE"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>这样我们就能成功拿到openid了。</p>
 <p>接下来分享下当时我们做授权时候的流程，我们主要实现的是一个微信投票的功能，每个用户只能投一票，所以需要拿到openid就可以了。<br>步骤如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1、在app内用户参加活动后分享微信进行投票，这时候我们将分享的url设置为后端的一个接口，而不是分享投票的落地页。</span><br><span class="line">2、由后端同事进行上面所讲的两步的openid请求。</span><br><span class="line">3、在请求成功后，携带openid跳转到我们的落地页。</span><br><span class="line">4、在投票时携带openid对这个openid进行验证，进而投票成功。</span><br></pre></td></tr></table></figure></p>
 
