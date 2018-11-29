@@ -1,0 +1,301 @@
+
+<!DOCTYPE html>
+<html lang="" class="loading">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>于晓俞的博客</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate">
+    <meta name="keywords" content="前端 H5 CSS3 JS JQUERY REACT VUE NODEJS HTML,VUE基础"> 
+    <meta name="description" content="VUE基础,LIST
+插值表达式
+指令
+vue中常用的v-指令
+v-bind使用
+v-on的使用
+v-for的使用
+关于对象内的this
+渲染组件-父使用子组件
+父子组件传值(父传子)
+注册全局组件
+过滤器&amp;a,"> 
+    <meta name="author" content="于晓俞"> 
+    <link rel="alternative" href="atom.xml" title="于晓俞的博客" type="application/atom+xml"> 
+    <link rel="icon" href="/img/yu-favicon.png"> 
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <link rel="stylesheet" href="/css/diaspora.css">
+</head>
+</html>
+<body class="loading">
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;"></a>
+    <div title="播放/暂停" class="icon-play"></div>
+    <h3 class="subtitle">vue-router</h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
+        <div>
+            <div class="share">
+                <a title="获取二维码" style="display: none;" class="icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+    <div class="section">
+        <div class="article">
+    <div class="main">
+        <h1 class="title">vue-router</h1>
+        <div class="stuff">
+            <span>十一月 29, 2018</span>
+            
+
+        </div>
+        <div class="content markdown">
+            <h4 id="LIST"><a href="#LIST" class="headerlink" title="LIST"></a>LIST</h4><ul>
+<li><a href="#前端路由原理--hash">前端路由原理–hash</a></li>
+<li><a href="#基本使用">基本使用</a></li>
+<li><a href="#router-link">router-link</a></li>
+<li><a href="#路由传参">路由传参</a></li>
+<li><a href="#嵌套路由">嵌套路由</a></li>
+<li><a href="#meta和路由钩子">meta和路由钩子</a></li>
+<li><a href="#编程导航">编程导航</a><h4 id="前端路由原理–hash"><a href="#前端路由原理–hash" class="headerlink" title="前端路由原理–hash"></a>前端路由原理–hash</h4></li>
+</ul>
+<ul>
+<li>传统开发方式 url改变后 立刻发起请求，响应整个页面，渲染整个页面</li>
+<li>SPA 锚点值改变后 不会发起请求,发起ajax请求,局部改变页面数据<ul>
+<li>页面不跳转 用户体验更好<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//前端路由的原理 根据hash的改变（部分锚点数据的改变） 去改变dom中的innerHTML</span></span><br><span class="line"><span class="keyword">var</span> app = <span class="built_in">document</span>.querySelector(<span class="string">'#app'</span>);</span><br><span class="line"><span class="built_in">window</span>.addEventListener(<span class="string">'hashchange'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">switch</span> (location.hash) &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">'#login'</span>: </span><br><span class="line">            app.innerHTML = <span class="string">'登录页面'</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">'#register'</span>:</span><br><span class="line">            app.innerHTML = <span class="string">'注册页面'</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src="/img/vue-router/7.gif" alt=""></p>
+<h4 id="SPA"><a href="#SPA" class="headerlink" title="SPA"></a>SPA</h4><ul>
+<li>single page application(单页应用程序)</li>
+<li>前端路由<ul>
+<li>锚点值监视</li>
+<li>ajax获取动态数据</li>
+<li>核心点是锚点值</li>
+</ul>
+</li>
+<li>前端框架 Vue/angular/react都很适合开发单页应用</li>
+</ul>
+<h4 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h4><ul>
+<li>vue-router </li>
+<li>其是vue的核心插件</li>
+<li>1:下载 <code>npm i vue-router -S</code></li>
+<li>1.5(重要):安装插件<code>Vue.use(VueRouter);</code>  </li>
+<li>2:在main.js中引入vue-router对象 <code>import VueRouter form &#39;./x.js&#39;;</code></li>
+<li>3:创建路由对象 <code>var router = new VueRouter();</code></li>
+<li>4:配置路由规则 <code>router.addRoutes([路由对象]);</code><ul>
+<li>路由对象<code>{path:&#39;锚点值&#39;,component:要(填坑)显示的组件}</code></li>
+</ul>
+</li>
+<li>5:将配置好的路由对象交给Vue<ul>
+<li>在options中传递-&gt; key叫做 router</li>
+</ul>
+</li>
+<li>6:留坑(使用组件) <code>&lt;router-view&gt;&lt;/router-view&gt;</code><br><img src="/img/vue-router/1.png" alt=""></li>
+</ul>
+<h4 id="router-link"><a href="#router-link" class="headerlink" title="router-link"></a>router-link</h4><ul>
+<li>to</li>
+<li>帮助我们生成a标签的href</li>
+<li>锚点值代码维护不方便，如果需要改变锚点值名称<ul>
+<li>则需要改变 [使用次数 + 1（配置规则）] 个地方的代码</li>
+</ul>
+</li>
+</ul>
+<h4 id="命名路由"><a href="#命名路由" class="headerlink" title="命名路由"></a>命名路由</h4><ul>
+<li>1:给路由对象一个名称 <code>{ name:&#39;home&#39;,path:&#39;/home&#39;,component:Home}</code></li>
+<li>2:在router-link的to属性中描述这个规则<ul>
+<li><code>&lt;router-link :to=&quot;{name:&#39;home&#39;}&gt;&lt;/router-link&gt;&quot;</code></li>
+<li>通过名称找路由对象，获取其path，生成自己的href</li>
+</ul>
+</li>
+<li>大大降低维护成本，锚点值改变只用在main.js中改变path属性即可</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> Login = &#123;</span><br><span class="line">    template: <span class="string">`</span></span><br><span class="line"><span class="string">        &lt;div&gt;登录页面&lt;/div&gt;</span></span><br><span class="line"><span class="string">    `</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">const</span> Register = &#123;</span><br><span class="line">    template: <span class="string">`</span></span><br><span class="line"><span class="string">        &lt;div&gt;注册页面&lt;/div&gt;</span></span><br><span class="line"><span class="string">    `</span></span><br><span class="line">&#125;;</span><br><span class="line">Vue.use(VueRouter);</span><br><span class="line"><span class="keyword">const</span> router = <span class="keyword">new</span> VueRouter(&#123;</span><br><span class="line">    routes: [</span><br><span class="line">        &#123;</span><br><span class="line">            name: <span class="string">'login'</span>,</span><br><span class="line">            path: <span class="string">'/login'</span>,</span><br><span class="line">            component: Login</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            name: <span class="string">'register'</span>,</span><br><span class="line">            path: <span class="string">'/register'</span>,</span><br><span class="line">            component: Register</span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">new</span> Vue(&#123;</span><br><span class="line">    el: <span class="string">'#app'</span>,</span><br><span class="line">    router: router,</span><br><span class="line">    template: <span class="string">`</span></span><br><span class="line"><span class="string">        &lt;div&gt;</span></span><br><span class="line"><span class="string">            &lt;router-link :to="&#123;name: 'login'&#125;"&gt;去登陆&lt;/router-link&gt;</span></span><br><span class="line"><span class="string">            &lt;router-link :to="&#123;name: 'register'&#125;"&gt;去注册&lt;/router-link&gt;</span></span><br><span class="line"><span class="string">            &lt;router-view&gt;&lt;/router-view&gt;</span></span><br><span class="line"><span class="string">        &lt;/div&gt;</span></span><br><span class="line"><span class="string">    `</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p><img src="/img/vue-router/2.gif" alt=""></p>
+<h4 id="路由传参"><a href="#路由传参" class="headerlink" title="路由传参"></a>路由传参</h4><ul>
+<li><code>Vue.prototype.xxx = {add:fn}</code></li>
+<li>所有组件中，使用this.xxx就能拿到这个对象</li>
+<li>查询字符串 <ul>
+<li>1:配置<code>:to=&quot;{name:&#39;detail&#39;,query:{id:hero.id} }&quot;</code></li>
+<li>2:规则 <code>{name:&#39;detail&#39;,path:&#39;/detail&#39;,component:Detail}</code></li>
+<li>3:获取 <code>this.$route.query.id</code></li>
+<li>4:生成 <code>&lt;a href=&quot;/detail?id=1&quot;&gt;</code></li>
+</ul>
+</li>
+<li>path方式 <ul>
+<li>4:生成 <code>&lt;a href=&quot;/detail/1&quot;&gt;</code></li>
+<li>1:配置 <code>:to=&quot;{name:&#39;detail&#39;,params:{id:hero.id}  }&quot;</code></li>
+<li>2:规则 <code>{ name:&#39;detail&#39;,path:&#39;/detail/:id&#39;}</code></li>
+<li>3:获取 <code>this.$route.params.id</code></li>
+</ul>
+</li>
+<li>查询字符串配置参数<ul>
+<li>router-link一次</li>
+<li>获取的时候一次</li>
+</ul>
+</li>
+<li>path方式配置参数<ul>
+<li>router-link一次</li>
+<li>规则配置的时候声明位置</li>
+<li>获取的时候一次</li>
+</ul>
+</li>
+<li>总结书写代码注意事项<ul>
+<li>path方式需要在路由规则中声明位置</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">Vue.use(VueRouter);</span><br><span class="line"><span class="keyword">const</span> Login = &#123;</span><br><span class="line">    template: <span class="string">`</span></span><br><span class="line"><span class="string">        &lt;div&gt;登陆页面&lt;/div&gt;</span></span><br><span class="line"><span class="string">    `</span>,</span><br><span class="line">    created() &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="keyword">this</span>.$route.query);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">const</span> Register = &#123;</span><br><span class="line">    template: <span class="string">`</span></span><br><span class="line"><span class="string">        &lt;div&gt;注册页面&lt;/div&gt;</span></span><br><span class="line"><span class="string">    `</span>,</span><br><span class="line">    created() &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="keyword">this</span>.$route.params);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">const</span> router = <span class="keyword">new</span> VueRouter(&#123;</span><br><span class="line">    routes: [</span><br><span class="line">        &#123;</span><br><span class="line">            name: <span class="string">'login'</span>,</span><br><span class="line">            path: <span class="string">'/login'</span>,</span><br><span class="line">            component: Login</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            name: <span class="string">'register'</span>,</span><br><span class="line">            path: <span class="string">'/register/:id'</span>,</span><br><span class="line">            component: Register</span><br><span class="line">        &#125;,</span><br><span class="line">    ]</span><br><span class="line">&#125;);</span><br><span class="line"><span class="keyword">new</span> Vue(&#123;</span><br><span class="line">    el: <span class="string">'#app'</span>,</span><br><span class="line">    template: <span class="string">`</span></span><br><span class="line"><span class="string">        &lt;div&gt;</span></span><br><span class="line"><span class="string">            &lt;router-link :to="&#123;name: 'login', query: &#123;id: '123'&#125;&#125;"&gt;去登陆&lt;/router-link&gt;    </span></span><br><span class="line"><span class="string">            &lt;router-link :to="&#123;name: 'register', params: &#123;id: '123'&#125;&#125;"&gt;去注册&lt;/router-link&gt;    </span></span><br><span class="line"><span class="string">            &lt;router-view&gt;&lt;/router-view&gt;    </span></span><br><span class="line"><span class="string">        &lt;/div&gt;</span></span><br><span class="line"><span class="string">    `</span>,</span><br><span class="line">    router: router</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p><img src="/img/vue-router/3.gif" alt=""></p>
+<h4 id="vue-router中的对象"><a href="#vue-router中的对象" class="headerlink" title="vue-router中的对象"></a>vue-router中的对象</h4><ul>
+<li>$route 路由信息对象,只读对象</li>
+<li>$router 路由操作对象,只写对象</li>
+</ul>
+<h4 id="嵌套路由"><a href="#嵌套路由" class="headerlink" title="嵌套路由"></a>嵌套路由</h4><ul>
+<li>代码思想<ul>
+<li>1:router-view的细分<ul>
+<li>router-view第一层中，包含一个router-view</li>
+</ul>
+</li>
+<li>2:每一个坑挖好了，要对应单独的组件</li>
+</ul>
+</li>
+<li>使用须知: 1:router-view包含router-view 2:路由children路由</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> Login = &#123;</span><br><span class="line">    template: <span class="string">`</span></span><br><span class="line"><span class="string">        &lt;div&gt;</span></span><br><span class="line"><span class="string">            登录首页</span></span><br><span class="line"><span class="string">            &lt;router-view&gt;&lt;/router-view&gt;    </span></span><br><span class="line"><span class="string">        &lt;/div&gt;</span></span><br><span class="line"><span class="string">    `</span>,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">var</span> Weixin = &#123;</span><br><span class="line">    template: <span class="string">`</span></span><br><span class="line"><span class="string">        &lt;div&gt;</span></span><br><span class="line"><span class="string">            微信登录页</span></span><br><span class="line"><span class="string">        &lt;/div&gt;</span></span><br><span class="line"><span class="string">    `</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">var</span> Qq = &#123;</span><br><span class="line">    template: <span class="string">`</span></span><br><span class="line"><span class="string">        &lt;div&gt;</span></span><br><span class="line"><span class="string">            QQ登录页</span></span><br><span class="line"><span class="string">        &lt;/div&gt;</span></span><br><span class="line"><span class="string">    `</span></span><br><span class="line">&#125;;</span><br><span class="line">Vue.use(VueRouter);</span><br><span class="line"><span class="keyword">var</span> router = <span class="keyword">new</span> VueRouter(&#123;</span><br><span class="line">    routes: [</span><br><span class="line">        &#123;</span><br><span class="line">            name: <span class="string">'login'</span>,</span><br><span class="line">            path: <span class="string">'/login'</span>,</span><br><span class="line">            component: Login,</span><br><span class="line">            children: [</span><br><span class="line">                &#123;</span><br><span class="line">                    name: <span class="string">'login-weixin'</span>,</span><br><span class="line">                    path: <span class="string">'weixin'</span>,</span><br><span class="line">                    component: Weixin,</span><br><span class="line">                &#125;,</span><br><span class="line">                &#123;</span><br><span class="line">                    name: <span class="string">'login-qq'</span>,</span><br><span class="line">                    path: <span class="string">'qq'</span>,</span><br><span class="line">                    component: Qq,</span><br><span class="line">                &#125;,</span><br><span class="line">            ]</span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;);</span><br><span class="line"><span class="keyword">new</span> Vue(&#123;</span><br><span class="line">    el: <span class="string">'#app'</span>,</span><br><span class="line">    template: <span class="string">`</span></span><br><span class="line"><span class="string">        &lt;div&gt;</span></span><br><span class="line"><span class="string">            &lt;router-link :to="&#123;name: 'login'&#125;"&gt;login&lt;/router-link&gt;</span></span><br><span class="line"><span class="string">            &lt;router-link :to="&#123;name: 'login-weixin'&#125;"&gt;微信&lt;/router-link&gt;</span></span><br><span class="line"><span class="string">            &lt;router-link :to="&#123;name: 'login-qq'&#125;"&gt;QQ&lt;/router-link&gt;</span></span><br><span class="line"><span class="string">            &lt;router-view&gt;&lt;/router-view&gt;    </span></span><br><span class="line"><span class="string">        &lt;/div&gt;</span></span><br><span class="line"><span class="string">    `</span>,</span><br><span class="line">    router: router,</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p><img src="/img/vue-router/4.gif" alt=""></p>
+<h4 id="meta和路由钩子"><a href="#meta和路由钩子" class="headerlink" title="meta和路由钩子"></a>meta和路由钩子</h4><ul>
+<li>路由meta元数据 -&gt; meta是对于路由规则是否需要验证权限的配置<ul>
+<li>路由对象中 和name属性同级 <code>{  meta:{ isChecked:true  }  }</code></li>
+</ul>
+</li>
+<li>路由钩子 -&gt; 权限控制的函数执行时期<ul>
+<li>每次路由匹配后,  渲染组件到router-view之前</li>
+<li><code>router.beforeEach(function(to,from,next) {    } )</code><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> isLogin = <span class="literal">false</span>;</span><br><span class="line"><span class="keyword">const</span> Login = &#123;</span><br><span class="line">    template: <span class="string">`</span></span><br><span class="line"><span class="string">        &lt;div&gt;登录页面&lt;/div&gt;</span></span><br><span class="line"><span class="string">    `</span>,</span><br><span class="line">    created () &#123;</span><br><span class="line">        isLogin = <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">const</span> Music = &#123;</span><br><span class="line">    template: <span class="string">`</span></span><br><span class="line"><span class="string">        &lt;div&gt;音乐页面&lt;/div&gt;</span></span><br><span class="line"><span class="string">    `</span></span><br><span class="line">&#125;;</span><br><span class="line">Vue.use(VueRouter);</span><br><span class="line"><span class="keyword">const</span> router = <span class="keyword">new</span> VueRouter();</span><br><span class="line">router.addRoutes([</span><br><span class="line">    &#123;</span><br><span class="line">        name: <span class="string">'login'</span>,</span><br><span class="line">        path: <span class="string">'/login'</span>,</span><br><span class="line">        component: Login</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        name: <span class="string">'music'</span>,</span><br><span class="line">        path: <span class="string">'/music'</span>,</span><br><span class="line">        component: Music,</span><br><span class="line">        meta: &#123; <span class="attr">isChecked</span>: <span class="literal">true</span> &#125;</span><br><span class="line">    &#125;</span><br><span class="line">]);</span><br><span class="line">router.beforeEach(<span class="function"><span class="keyword">function</span> (<span class="params">to, from, next</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!to.meta.isChecked) &#123;</span><br><span class="line">        next();</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (isLogin) &#123;</span><br><span class="line">            next();</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            next(&#123;<span class="attr">name</span>: <span class="string">'login'</span>&#125;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="keyword">new</span> Vue(&#123;</span><br><span class="line">    el: <span class="string">'#app'</span>,</span><br><span class="line">    router: router,</span><br><span class="line">    template: <span class="string">`</span></span><br><span class="line"><span class="string">        &lt;div&gt;</span></span><br><span class="line"><span class="string">            &lt;router-link :to="&#123;name: 'login'&#125;"&gt;去登陆&lt;/router-link&gt;</span></span><br><span class="line"><span class="string">            &lt;router-link :to="&#123;name: 'music'&#125;"&gt;去音乐&lt;/router-link&gt;</span></span><br><span class="line"><span class="string">            &lt;router-view&gt;&lt;/router-view&gt;</span></span><br><span class="line"><span class="string">        &lt;/div&gt;</span></span><br><span class="line"><span class="string">    `</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src="/img/vue-router/5.gif" alt=""></p>
+<h4 id="编程导航"><a href="#编程导航" class="headerlink" title="编程导航"></a>编程导航</h4><ul>
+<li>1: 跳到指定的锚点,并显示页面 <code>this.$router.push({ name:&#39;xxx&#39;,query:{id:1},params:{name:&#39;abc&#39;}  });</code></li>
+<li>2: 配置规则 <code>{name:&#39;xxx&#39;,path:&#39;/xxx/:name&#39;}</code></li>
+<li>3: 根据历史记录.前进或后退<ul>
+<li><code>this.$router.go(-1|1);</code></li>
+<li>1代表进一步,-1是退一步</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line">Vue.use(VueRouter);</span><br><span class="line"><span class="keyword">const</span> Login = &#123;</span><br><span class="line">    template: <span class="string">`</span></span><br><span class="line"><span class="string">        &lt;div&gt;</span></span><br><span class="line"><span class="string">            登陆页面</span></span><br><span class="line"><span class="string">            &lt;button @click='toRegister'&gt;编程导航实现跳转到音乐&lt;/button&gt;</span></span><br><span class="line"><span class="string">            &lt;button @click='goto'&gt;前进&lt;/button&gt;</span></span><br><span class="line"><span class="string">        &lt;/div&gt;</span></span><br><span class="line"><span class="string">    `</span>,</span><br><span class="line">    created() &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="keyword">this</span>.$route.query);</span><br><span class="line">    &#125;,</span><br><span class="line">    methods: &#123;</span><br><span class="line">        toRegister() &#123;</span><br><span class="line">            <span class="keyword">this</span>.$router.push(&#123;<span class="attr">name</span>: <span class="string">'music'</span>, <span class="attr">query</span>: &#123;<span class="attr">id</span>: <span class="string">'111'</span>&#125;&#125;);</span><br><span class="line">        &#125;,</span><br><span class="line">        goto() &#123;</span><br><span class="line">            <span class="keyword">this</span>.$router.go(<span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">const</span> Register = &#123;</span><br><span class="line">    template: <span class="string">`</span></span><br><span class="line"><span class="string">        &lt;div&gt;注册页面&lt;/div&gt;</span></span><br><span class="line"><span class="string">    `</span>,</span><br><span class="line">    created() &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="keyword">this</span>.$route.params);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">const</span> Music = &#123;</span><br><span class="line">    template: <span class="string">`</span></span><br><span class="line"><span class="string">        &lt;div&gt;音乐</span></span><br><span class="line"><span class="string">                &lt;button @click='goback'&gt;后退&lt;/button&gt;</span></span><br><span class="line"><span class="string">            &lt;/div&gt;</span></span><br><span class="line"><span class="string">    `</span>,</span><br><span class="line">    methods: &#123;</span><br><span class="line">        goback() &#123;</span><br><span class="line">            <span class="keyword">this</span>.$router.go(<span class="number">-1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">const</span> router = <span class="keyword">new</span> VueRouter(&#123;</span><br><span class="line">    routes: [</span><br><span class="line">        &#123;</span><br><span class="line">            name: <span class="string">'login'</span>,</span><br><span class="line">            path: <span class="string">'/login'</span>,</span><br><span class="line">            component: Login</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            name: <span class="string">'register'</span>,</span><br><span class="line">            path: <span class="string">'/register/:id'</span>,</span><br><span class="line">            component: Register</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            name: <span class="string">'music'</span>,</span><br><span class="line">            path: <span class="string">'/music'</span>,</span><br><span class="line">            component: Music</span><br><span class="line">        &#125;,</span><br><span class="line">    ]</span><br><span class="line">&#125;);</span><br><span class="line"><span class="keyword">new</span> Vue(&#123;</span><br><span class="line">    el: <span class="string">'#app'</span>,</span><br><span class="line">    template: <span class="string">`</span></span><br><span class="line"><span class="string">        &lt;div&gt;</span></span><br><span class="line"><span class="string">            &lt;router-link :to="&#123;name: 'login', query: &#123;id: '123'&#125;&#125;"&gt;去登陆&lt;/router-link&gt;    </span></span><br><span class="line"><span class="string">            &lt;router-link :to="&#123;name: 'register', params: &#123;id: '123'&#125;&#125;"&gt;去注册&lt;/router-link&gt;    </span></span><br><span class="line"><span class="string">            &lt;router-view&gt;&lt;/router-view&gt;    </span></span><br><span class="line"><span class="string">        &lt;/div&gt;</span></span><br><span class="line"><span class="string">    `</span>,</span><br><span class="line">    router: router</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p><img src="/img/vue-router/6.gif" alt=""></p>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        <li title="0" data-url="http://link.hhtjim.com/163/5146554.mp3"></li>
+                    
+                        <li title="1" data-url="http://link.hhtjim.com/qq/001faIUs4M2zna.mp3"></li>
+                    
+                </ul>
+            
+        </div>
+        
+
+    </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/diaspora.js"></script>
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-129771196-1', 'auto');
+  ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+
+</html>
