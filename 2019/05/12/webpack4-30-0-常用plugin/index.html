@@ -1,0 +1,194 @@
+
+<!DOCTYPE html>
+<html lang="" class="loading">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>于晓俞的博客</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate">
+    <meta name="keywords" content="前端 H5 CSS3 JS JQUERY REACT VUE NODEJS HTML,webpack4.30.0-常用loader"> 
+    <meta name="description" content="webpack4.30.0-常用loader,前阵子写了个webpack3的博客写了一半，现在最新版已经在4了，就再用4的版本重新写一次
+LIST
+file-loader
+url-loader
+css-loader
+less-loader
+po,"> 
+    <meta name="author" content="于晓俞"> 
+    <link rel="alternative" href="atom.xml" title="于晓俞的博客" type="application/atom+xml"> 
+    <link rel="icon" href="/img/yu-favicon.png"> 
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <link rel="stylesheet" href="/css/diaspora.css">
+</head>
+</html>
+<body class="loading">
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="icon-home image-icon" href="javascript:;"></a>
+    <div title="播放/暂停" class="icon-play"></div>
+    <h3 class="subtitle">webpack4.30.0-常用plugin</h3>
+    <div class="social">
+        <!--<div class="like-icon">-->
+            <!--<a href="javascript:;" class="likeThis active"><span class="icon-like"></span><span class="count">76</span></a>-->
+        <!--</div>-->
+        <div>
+            <div class="share">
+                <a title="获取二维码" style="display: none;" class="icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+    <div class="section">
+        <div class="article">
+    <div class="main">
+        <h1 class="title">webpack4.30.0-常用plugin</h1>
+        <div class="stuff">
+            <span>五月 12, 2019</span>
+            
+
+        </div>
+        <div class="content markdown">
+            <p>接上篇loader继续 这次是plugin 两篇博客的源码位置<a href="https://gitee.com/yuxiaoyu0124/webpack4.30.0" target="_blank" rel="noopener">https://gitee.com/yuxiaoyu0124/webpack4.30.0</a>(网又姨妈了，放码云了)</p>
+<h4 id="LIST"><a href="#LIST" class="headerlink" title="LIST"></a>LIST</h4><ul>
+<li><a href="#HtmlWebpackPlugin">HtmlWebpackPlugin</a></li>
+<li><a href="#clean-webpack-plugin">clean-webpack-plugin</a></li>
+<li><a href="#ExtractTextWebpackPlugin">ExtractTextWebpackPlugin</a></li>
+<li><a href="#sourceMap">sourceMap</a></li>
+<li><a href="#WebpackDevServer">WebpackDevServer</a></li>
+<li><a href="#解决开发阶段本地请求跨域">解决开发阶段本地请求跨域</a></li>
+<li><a href="#Babel处理ES6">Babel处理ES6</a></li>
+<li><a href="#配置React打包环境">配置React打包环境</a></li>
+</ul>
+<h3 id="HtmlWebpackPlugin"><a href="#HtmlWebpackPlugin" class="headerlink" title="HtmlWebpackPlugin"></a>HtmlWebpackPlugin</h3><p>htmlwebpackplugin会在打包结束后，自动生成一个html文件，并把打包生成的js模块引入到该html中。<br><code>npm install --save-dev html-webpack-plugin</code>安装<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 修改webpack.config.js</span></span><br><span class="line"><span class="keyword">const</span> HtmlWebpackPlugin = <span class="built_in">require</span>(<span class="string">'html-webpack-plugin'</span>)</span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    ...</span><br><span class="line">    plugins: [</span><br><span class="line">        <span class="keyword">new</span> HtmlWebpackPlugin(&#123;</span><br><span class="line">            <span class="comment">// filename: 'index_min.html' // 编译之后的文件名 </span></span><br><span class="line">            template: <span class="string">'./index.html'</span> <span class="comment">//设置以哪个文件为模板</span></span><br><span class="line">        &#125;)</span><br><span class="line">    ]</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="clean-webpack-plugin"><a href="#clean-webpack-plugin" class="headerlink" title="clean-webpack-plugin"></a>clean-webpack-plugin</h3><p>clean-webpack-plugin打包前自动清空dist目录<br><code>npm install --save-dev clean-webpack-plugin</code><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 修改webpack.config.js</span></span><br><span class="line"><span class="keyword">const</span> cleanWebpackPlugin = <span class="built_in">require</span>(<span class="string">'clean-webpack-plugin'</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    ...</span><br><span class="line">    plugins: [</span><br><span class="line">        <span class="keyword">new</span> HtmlWebpackPlugin(&#123;</span><br><span class="line">            <span class="comment">// filename: 'index_min.html'</span></span><br><span class="line">            template: <span class="string">'./index.html'</span></span><br><span class="line">        &#125;),</span><br><span class="line">        <span class="keyword">new</span> cleanWebpackPlugin()</span><br><span class="line">    ],</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="ExtractTextWebpackPlugin"><a href="#ExtractTextWebpackPlugin" class="headerlink" title="ExtractTextWebpackPlugin"></a>ExtractTextWebpackPlugin</h3><p>ExtractTextWebpackPlugin 会将css、less、sass文件打包成单独的文件 用link标签方式引入到html中 会将css文件都合并到一个文件中 less文件合并到一个文件中<br><code>npm install --save-dev extract-text-webpack-plugin@next</code>安装一个最新版本 现在这个插件的3版本的 有用的API已经废弃</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 修改webpack.config.js</span></span><br><span class="line"><span class="comment">// 创建多个实例 因为我们的案例里既有css 又有less</span></span><br><span class="line"><span class="keyword">const</span> extractCSS = <span class="keyword">new</span> ExtractTextPlugin(<span class="string">'stylesheets/[name]-css.css'</span>);</span><br><span class="line"><span class="keyword">const</span> extractLESS = <span class="keyword">new</span> ExtractTextPlugin(<span class="string">'stylesheets/[name]-less.css'</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    ...</span><br><span class="line">    plugins: [</span><br><span class="line">        ...</span><br><span class="line">        extractCSS,</span><br><span class="line">        extractLESS</span><br><span class="line">    ],</span><br><span class="line">        <span class="built_in">module</span>: &#123;</span><br><span class="line">        rules: [</span><br><span class="line">            ...</span><br><span class="line">            &#123;</span><br><span class="line">                test: <span class="regexp">/\.css$/</span>,</span><br><span class="line">                use: extractCSS.extract([<span class="string">'css-loader'</span>, <span class="string">'postcss-loader'</span>]),</span><br><span class="line">            &#125;,</span><br><span class="line">            &#123;</span><br><span class="line">                test: <span class="regexp">/\.less$/</span>,</span><br><span class="line">                use: extractLESS.extract([<span class="string">'css-loader'</span>, <span class="string">'postcss-loader'</span>, <span class="string">'less-loader'</span>]),</span><br><span class="line">            &#125;</span><br><span class="line">        ]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 我们再创建个css文件 在index.js中引用 然后进行编译 会发现生成了两个css文件 一个是css后缀打包的文件，一个是less后缀打包的文件 也就是说我们在index.js引入的两个css后缀的文件被放到了一个文件中</span></span><br></pre></td></tr></table></figure>
+<p>打包后的文件<br><img src="/img/webpack4/7.png" alt=""><br>打包前的css文件<br><img src="/img/webpack4/9.png" alt=""><br><img src="/img/webpack4/10.png" alt=""></p>
+<h3 id="sourceMap"><a href="#sourceMap" class="headerlink" title="sourceMap"></a>sourceMap</h3><p>源代码与打包后的代码的映射关系 可以看到具体的报错和输出位置在哪个文件哪一行<br>首先我们在配置文件中生命<code>mode: &#39;development&#39;</code>,这样可以便于debug<br>在dev模式中，默认开启，关闭的话 可以在配置里件<code>devtool:&quot;none&quot;</code> </p>
+<p>eval:速度最快<br>cheap:较快，不用管列的报错<br>Module:第三方模块<br>开发环境推荐:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">devtool:&quot;cheap-module-eval-source-map&quot;</span><br><span class="line">线上环境可以不开启:如果要看到一些错误信息，推荐;</span><br><span class="line">devtool:&quot;cheap-module-source-map&quot;</span><br></pre></td></tr></table></figure></p>
+<h3 id="WebpackDevServer"><a href="#WebpackDevServer" class="headerlink" title="WebpackDevServer"></a>WebpackDevServer</h3><p>提升开发效率的利器<br>每次改完代码都需要重新打包一次，打开浏览器，刷新一次，很麻烦<br>我们可以安装使用webpackdevserver来改善这块的体验</p>
+<p><code>npm install webpack-dev-server -D</code>安装<br>修改下package.json 加个启动命令<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"scripts"</span>: &#123;</span><br><span class="line">    <span class="string">"server"</span>: <span class="string">"webpack-dev-server"</span></span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure></p>
+<p>在webpack.config.js配置:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">devServer: &#123;</span><br><span class="line">    contentBase: <span class="string">"./dist"</span>, <span class="comment">// 把服务器启动在dist文件下</span></span><br><span class="line">    open: <span class="literal">true</span>, <span class="comment">// 自动打开浏览器</span></span><br><span class="line">    port: <span class="number">8081</span>  <span class="comment">// 端口号</span></span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure></p>
+<p>使用<code>npm run server</code>启动<br>启动服务后，会发现dist目录没有文件，这是因为devServer把打包后的模块不会放在dist目录下，而是放在到内存中，从而提升速度</p>
+<h3 id="解决开发阶段本地请求跨域"><a href="#解决开发阶段本地请求跨域" class="headerlink" title="解决开发阶段本地请求跨域"></a>解决开发阶段本地请求跨域</h3><p>先来创建一个跨域环境，用express模拟一个后端api接口<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// npm i express -D</span></span><br><span class="line"><span class="comment">// 创建server.js</span></span><br><span class="line"><span class="keyword">const</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>)</span><br><span class="line"><span class="keyword">const</span> app = express()</span><br><span class="line">app.get(<span class="string">'/api/info'</span>, (req, res) =&gt; &#123;</span><br><span class="line">    res.json(&#123;</span><br><span class="line">        content: <span class="string">'测试跨域请求'</span></span><br><span class="line">    &#125;)</span><br><span class="line">&#125;)</span><br><span class="line">app.listen(<span class="string">'9092'</span>)</span><br><span class="line"><span class="comment">// node server.js</span></span><br></pre></td></tr></table></figure></p>
+<p>然后在index.js中请求该接口<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> axios <span class="keyword">from</span> <span class="string">'axios'</span></span><br><span class="line"> axios.get(<span class="string">'http://localhost:9092/api/info'</span>).then(<span class="function"><span class="params">res</span>=&gt;</span>&#123;</span><br><span class="line">     <span class="built_in">console</span>.log(res)</span><br><span class="line"> &#125;)</span><br></pre></td></tr></table></figure></p>
+<p>我们可以看到结果实际上是跨域了 在正式环境我们会用cors或者nginx代理，在开发环境webpack-dev-server也提供了代理功能，可以做代理处理<br><img src="/img/webpack4/11.png" alt=""></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 修改webpack.config.js</span></span><br><span class="line">devServer: &#123;</span><br><span class="line">    ...</span><br><span class="line">    proxy: &#123;</span><br><span class="line">        <span class="string">"/api"</span>: &#123;</span><br><span class="line">            target: <span class="string">"http://localhost:9092"</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;,</span><br><span class="line"></span><br><span class="line"><span class="comment">// 修改index.js 去掉协议</span></span><br><span class="line"><span class="keyword">import</span> axios <span class="keyword">from</span> <span class="string">'axios'</span></span><br><span class="line"> axios.get(<span class="string">'api/info'</span>).then(<span class="function"><span class="params">res</span>=&gt;</span>&#123;</span><br><span class="line">     <span class="built_in">console</span>.log(res)</span><br><span class="line"> &#125;)</span><br></pre></td></tr></table></figure>
+<p>这样请求就可以正常过来了<br><img src="/img/webpack4/12.png" alt=""></p>
+<h3 id="Babel处理ES6"><a href="#Babel处理ES6" class="headerlink" title="Babel处理ES6"></a>Babel处理ES6</h3><p>官方链接<a href="https://babeljs.io/" target="_blank" rel="noopener">https://babeljs.io/</a><br><code>npm i babel-loader @babel/core @babel/preset-env -D</code>安装<br>babel-loader是webpack与babel的通信桥梁，不会做把es6转成es5的工作，这部分工作需要用到@babel/preset-env来做，@babel/preset-env里包含了es6转es5的转换规则<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 在index.js中加一些es6语法</span></span><br><span class="line"><span class="keyword">const</span> arr = [<span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve</span>) =&gt;</span> &#123; resolve(<span class="number">1</span>) &#125;), <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve</span>) =&gt;</span> &#123; resolve(<span class="number">1</span>) &#125;)]</span><br></pre></td></tr></table></figure></p>
+<p>然后我们使用<code>npx webpack</code>编译，这里是为了看下编译后的文件，就没采用webpack-dev-server去做编译。</p>
+<p>我们可以看到build.js文件中编译的结果，<code>const ()=&gt;{}</code>都得到了编译，但是<code>promise</code>并没有编译<br><img src="/img/webpack4/13.png" alt=""><br>所以上面这步还不够，Promise等一些还有转换过来，这时候需要借助@babel/polyfill，把es的新特性都装进来，来弥补低版本浏览器中缺失的特性<br><code>npm install --save @babel/polyfill</code>安装<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// index.js最上方引入@babel/polyfill</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">"@babel/polyfill"</span>;</span><br></pre></td></tr></table></figure></p>
+<p>我们再进行编译<br><img src="/img/webpack4/15.png" alt=""><br>我们对比之前的文件，发现整体文件大了好多，，这是因为polyfill默认会把所有特性注入进来<br><img src="/img/webpack4/14.png" alt=""></p>
+<p>所以我们考虑按需引入<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 去掉index.js中的引用</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 修改配置 webpack.config.js</span></span><br><span class="line">&#123;</span><br><span class="line">    test: <span class="regexp">/\.js$/</span>,</span><br><span class="line">    exclude: <span class="regexp">/node_modules/</span>,</span><br><span class="line">    loader: <span class="string">"babel-loader"</span>,</span><br><span class="line">    options: &#123;</span><br><span class="line">        presets: [</span><br><span class="line">            [</span><br><span class="line">                <span class="string">'@babel/preset-env'</span>,</span><br><span class="line">                &#123;</span><br><span class="line">                    useBuiltIns: <span class="string">"usage"</span>, <span class="comment">//按需注入</span></span><br><span class="line">                    corejs: <span class="number">3</span></span><br><span class="line">                &#125;</span><br><span class="line">            ]</span><br><span class="line">        ]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>打包后明显小了很多<br><img src="/img/webpack4/16.png" alt=""></p>
+<p>当我们开发的是组件库，工具库这些场景的时候，polyfill就不适合 ，因为polyfill是注入到全局变量， window下的，会污染全局环境，所以推荐闭包方式:@babel/plugin-transform-runtime<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 安装</span></span><br><span class="line">npm install --save-dev @babel/plugin-transform-runtime</span><br><span class="line">npm install --save @babel/runtime</span><br><span class="line"></span><br><span class="line"><span class="comment">// 修改配置</span></span><br><span class="line"><span class="comment">// presets: [</span></span><br><span class="line"><span class="comment">//     [</span></span><br><span class="line"><span class="comment">//         '@babel/preset-env',</span></span><br><span class="line"><span class="comment">//         &#123;</span></span><br><span class="line"><span class="comment">//             useBuiltIns: "usage", //按需注入</span></span><br><span class="line"><span class="comment">//             corejs: 3</span></span><br><span class="line"><span class="comment">//         &#125;</span></span><br><span class="line"><span class="comment">//     ]</span></span><br><span class="line"><span class="comment">// ]</span></span><br><span class="line">plugins: [</span><br><span class="line">    [</span><br><span class="line">        <span class="string">"@babel/plugin-transform-runtime"</span>,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="string">"corejs"</span>: <span class="number">2</span>,</span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">]</span><br></pre></td></tr></table></figure></p>
+<p>.babelrc文件，就是将options里的内容移到外面来</p>
+<h3 id="配置React打包环境"><a href="#配置React打包环境" class="headerlink" title="配置React打包环境"></a>配置React打包环境</h3><p><code>npm install react react-dom --save</code>安装<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 我们创建一个react.js用import或require把这个文件引入到index.js中</span></span><br><span class="line"><span class="comment">// react.js</span></span><br><span class="line"><span class="keyword">import</span> React, &#123; Component &#125; <span class="keyword">from</span> <span class="string">"react"</span>;</span><br><span class="line"> <span class="keyword">import</span> ReactDom <span class="keyword">from</span> <span class="string">"react-dom"</span>;</span><br><span class="line"> <span class="class"><span class="keyword">class</span> <span class="title">App</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line">   render() &#123;</span><br><span class="line">     <span class="keyword">return</span> &lt;div&gt;hello world&lt;/div&gt;;</span><br><span class="line">   &#125;</span><br><span class="line"> &#125;</span><br><span class="line"> ReactDom.render(&lt;App /&gt;, document.getElementById("app"));</span><br></pre></td></tr></table></figure></p>
+<p>安装babel与react转换的插件:<br><code>npm install --save-dev @babel/preset-react</code><br>然后修改配置文件<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// webpack.config.js</span></span><br><span class="line">&#123;</span><br><span class="line">    test: <span class="regexp">/\.js$/</span>,</span><br><span class="line">    exclude: <span class="regexp">/node_modules/</span>,</span><br><span class="line">    loader: <span class="string">"babel-loader"</span>,</span><br><span class="line">    options: &#123;</span><br><span class="line">        presets: [</span><br><span class="line">            [</span><br><span class="line">                <span class="string">'@babel/preset-env'</span>,</span><br><span class="line">                &#123;</span><br><span class="line">                    useBuiltIns: <span class="string">"usage"</span>, <span class="comment">//按需注入</span></span><br><span class="line">                    corejs: <span class="number">3</span></span><br><span class="line">                &#125;,</span><br><span class="line">            ],</span><br><span class="line">            <span class="string">"@babel/preset-react"</span></span><br><span class="line">        ]</span><br><span class="line">        <span class="comment">// plugins: [</span></span><br><span class="line">        <span class="comment">//     [</span></span><br><span class="line">        <span class="comment">//         "@babel/plugin-transform-runtime",</span></span><br><span class="line">        <span class="comment">//         &#123;</span></span><br><span class="line">        <span class="comment">//             "corejs": 2,</span></span><br><span class="line">        <span class="comment">//         &#125;</span></span><br><span class="line">        <span class="comment">//     ]</span></span><br><span class="line">        <span class="comment">// ]</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>然后进行编译，打开页面可以看到我们的react组件可以正常显示<br><img src="/img/webpack4/17.png" alt=""></p>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        <li title="0" data-url="http://link.hhtjim.com/163/5146554.mp3"></li>
+                    
+                        <li title="1" data-url="http://link.hhtjim.com/qq/001faIUs4M2zna.mp3"></li>
+                    
+                </ul>
+            
+        </div>
+        
+
+    </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/diaspora.js"></script>
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Google Analytics -->
+<script type="text/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-129771196-1', 'auto');
+  ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+
+</html>
